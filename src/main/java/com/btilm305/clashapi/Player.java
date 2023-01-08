@@ -33,4 +33,12 @@ public interface Player {
      * @return the number of trophies the player has
      */
     int getTrophies();
+    
+    
+    /**
+     * Returns the player tag
+     *
+     * @return the player tag
+     */
+    String getPlayerTag();
 }

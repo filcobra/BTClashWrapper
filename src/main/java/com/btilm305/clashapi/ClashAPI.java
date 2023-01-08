@@ -110,4 +110,24 @@ public interface ClashAPI {
      * @throws ClashException if an error with the API call occurs
      */
     List<AbbreviatedClan> searchClans(ClanSearchRequest request) throws IOException, ClashException;
+    
+    /**
+     * Requests and returns full player info
+     *
+     * @param player the Player object that represents the player whose info is requested
+     * @return the player specific info
+     * @throws IOException    if an I/O error occurs
+     * @throws ClashException if an error with the API call occurs
+     */
+    PlayerInfo requestPlayerInfo(Player player) throws IOException, ClashException;
+    
+    /**
+     * Requests and returns full player info
+     *
+     * @param playerTag the tag of the player whose info is requested
+     * @return the player specific info
+     * @throws IOException    if an I/O error occurs
+     * @throws ClashException if an error with the API call occurs
+     */
+    PlayerInfo requestPlayerInfo(String playerTag) throws IOException, ClashException;
 }

@@ -21,11 +21,23 @@ public class ClashAPIImpl implements ClashAPI {
 
     private static final String API_BASE = "https://api.clashofclans.com/";
     private static final String API_VERSION = "v1";
+    private static final String PROXY_BASE = "https://cocproxy.royaleapi.dev/";
 
     private String apiToken;
+    
+    private String apiURL;
 
     public ClashAPIImpl(String apiToken) {
+    	this(apiToken, false);
+    }
+    
+    public ClashAPIImpl(String apiToken, boolean isProxied) {
         this.apiToken = apiToken;
+    	if (isProxied) {
+    		apiURL = PROXY_BASE;
+    	} else {
+    		apiURL = API_BASE;
+    	}
     }
 
     public Clan requestClan(ClanData clan) throws IOException, ClashException {
@@ -121,7 +133,17 @@ public class ClashAPIImpl implements ClashAPI {
         return clans;
     }
 
-    private void insertIfNotNull(Map<String, String> map, String key, Object value) {
+	@Override
+	public PlayerInfo requestPlayerInfo(Player player) throws IOException, ClashException {
+		return requestPlayerInfo(player.getPlayerTag());
+	}
+
+	@Override
+	public PlayerInfo requestPlayerInfo(String playerTag) throws IOException, ClashException {
+        return new PlayerInfoImpl(performAPIRequest("players/%s", playerTag));
+	}
+
+	private void insertIfNotNull(Map<String, String> map, String key, Object value) {
         if (value != null) {
             map.put(key, value.toString());
         }
@@ -139,7 +161,7 @@ public class ClashAPIImpl implements ClashAPI {
         }
         String suffix = String.format(format, arguments);
         try {
-            HttpURLConnection connection = (HttpURLConnection) new URL(API_BASE + API_VERSION + "/" + suffix).openConnection();
+            HttpURLConnection connection = (HttpURLConnection) new URL(apiURL + API_VERSION + "/" + suffix).openConnection();
             connection.setRequestProperty("Accept", "application/json");
             connection.setRequestProperty("authorization", "Bearer " + apiToken);
 
@@ -198,4 +220,5 @@ public class ClashAPIImpl implements ClashAPI {
         in.close();
         return new String(out.toByteArray());
     }
+
 }

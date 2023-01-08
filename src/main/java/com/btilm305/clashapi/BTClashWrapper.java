@@ -8,12 +8,23 @@ import com.btilm305.clashapi.impl.ClashAPIImpl;
 public class BTClashWrapper {
 
     /**
-     * Creates a ClashAPI instance with the provided API token
+     * Creates a ClashAPI instance with the provided API token. Doesn't use proxy.
      *
      * @param apiToken the api token
      * @return an API instance
      */
     public static ClashAPI getAPIInstance(String apiToken) {
         return new ClashAPIImpl(apiToken);
+    }
+    
+    /**
+     * Creates a ClashAPI instance with the provided API token
+     *
+     * @param apiToken the api token
+     * @param isProxied if should use proxy or not
+     * @return an API instance
+     */
+    public static ClashAPI getAPIInstance(String apiToken, boolean isProxied) {
+        return new ClashAPIImpl(apiToken, isProxied);
     }
 }

@@ -10,14 +10,17 @@ public abstract class PlayerImpl implements Player {
     protected int expLevel;
     protected int trophies;
     protected League league;
+    protected String playerTag;
 
-    protected PlayerImpl(JSONObject root) {
+	protected PlayerImpl(JSONObject root) {
         name = root.getString("name");
         expLevel = root.getInt("expLevel");
         if (root.has("league")) {
             league = new LeagueImpl(root.getJSONObject("league"));
         }
         trophies = root.getInt("trophies");
+        playerTag = root.getString("tag");
+        
     }
 
     public int getExpLevel() {
@@ -36,10 +39,15 @@ public abstract class PlayerImpl implements Player {
         return trophies;
     }
 
+    public String getPlayerTag() {
+		return playerTag;
+	}
+
     @Override
     public String toString() {
         return "PlayerImpl{" +
                 "name='" + name + '\'' +
+                '('+playerTag+')' +
                 ", expLevel=" + expLevel +
                 ", trophies=" + trophies +
                 ", league=" + league +
